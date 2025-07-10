@@ -41,6 +41,7 @@ export function AnswerCard({ answer }: AnswerCardProps) {
           <div className="text-sm">
             <span className="font-semibold">{answer.author.name}</span>
             <span className="text-muted-foreground"> • {answer.createdAt.toLocaleDateString()}</span>
+
           </div>
           <Button onClick={handleSummary} variant="ghost" size="sm" disabled={isPending}>
             {isPending ? (
@@ -64,7 +65,8 @@ export function AnswerCard({ answer }: AnswerCardProps) {
           <p>{answer.content}</p>
         </div>
 
-         {answer.attachments.length > 0 && (
+        {answer.attachments && Array.isArray(answer.attachments) && answer.attachments.length > 0 && (
+
             <div className="mt-2">
                 <div className="flex flex-col gap-2">
                     {answer.attachments.map(att => (
