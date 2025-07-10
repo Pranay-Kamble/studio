@@ -1,5 +1,5 @@
-import type { User, Subject, Tag, Question } from './types';
-import { Book, FlaskConical, Code, Sigma, History } from 'lucide-react';
+import type { User, Subject, Tag, Question } from "./types";
+import { Book, FlaskConical, Code, Sigma, History, Music, Brush, Globe, Brain, Dna, HandHelping, HelpCircle } from "lucide-react";
 
 export const users: User[] = [
   { id: 'user-1', name: 'Alice', avatar: 'https://placehold.co/40x40.png?text=A' },
@@ -14,6 +14,13 @@ export const subjects: Subject[] = [
   { id: 'subj-3', name: 'Computer Science', icon: Code },
   { id: 'subj-4', name: 'Mathematics', icon: Sigma },
   { id: 'subj-5', name: 'History', icon: History },
+  { id: 'subj-6', name: 'Music', icon: Music },
+  { id: 'subj-7', name: 'Art', icon: Brush },
+  { id: 'subj-8', name: 'Geography', icon: Globe },
+  { id: 'subj-9', name: 'Psychology', icon: Brain },
+  { id: 'subj-10', name: 'Biology', icon: Dna },
+  { id: 'subj-11', name: 'Economics', icon: HandHelping },
+  { id: 'subj-custom', name: 'Custom Subject', icon: HelpCircle }, // Custom subject option
 ];
 
 export const tags: Tag[] = [

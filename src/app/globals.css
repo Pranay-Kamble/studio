@@ -10,8 +10,8 @@
     --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
-    --primary: 204 45% 60%;
-    --primary-foreground: 210 20% 98%;
+    --primary: 220 80% 20%; /* Significantly darker blue */
+    --primary-foreground: 210 40% 98%;
     --secondary: 220 13% 91%;
     --secondary-foreground: 220 14% 10%;
     --muted: 220 13% 91%;
@@ -33,7 +33,7 @@
     --card-foreground: 210 20% 98%;
     --popover: 224 71% 4%;
     --popover-foreground: 210 20% 98%;
-    --primary: 204 45% 79%;
+    --primary: 220 80% 30%; /* Significantly darker blue for dark mode */
     --primary-foreground: 224 71% 4%;
     --secondary: 215 28% 17%;
     --secondary-foreground: 210 20% 98%;
@@ -45,7 +45,7 @@
     --destructive-foreground: 0 0% 98%;
     --border: 215 28% 17%;
     --input: 215 28% 17%;
-    --ring: 204 45% 79%;
+    --ring: 204 45% 69%;
   }
 }
 

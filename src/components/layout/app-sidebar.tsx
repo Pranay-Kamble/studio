@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Home, HelpCircle, Tag, Book, Beaker, Code, Sigma, History, Filter } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
@@ -10,6 +10,7 @@ import { subjects, tags } from '@/lib/data';
 
 export function AppSidebar() {
   const pathname = usePathname();
+
 
   return (
     <div className="hidden border-r bg-card md:block">
@@ -52,16 +53,25 @@ export function AppSidebar() {
                 </h3>
             </div>
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+
             <h4 className="mb-1 mt-2 px-3 text-sm font-semibold text-foreground">Subjects</h4>
             {subjects.map((subject) => (
-              <Link
+              <button
                 key={subject.id}
-                href="#"
+                onClick={() => {
+                  // Handle subject filtering here
+                  // For now, we'll just log the subject
+                  console.log('Filtering by subject:', subject.name);
+                }}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary text-sm"
               >
-                <subject.icon className="h-4 w-4" />
-                {subject.name}
-              </Link>
+                {subject.icon ? (
+ <subject.icon className="h-4 w-4" />
+ ) : (
+ <Tag className="h-4 w-4" /> // Fallback icon if subject.icon is null or undefined
+ )}
+ {subject.name}
+              </button>
             ))}
           </nav>
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4 mt-4">

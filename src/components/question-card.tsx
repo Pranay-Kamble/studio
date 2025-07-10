@@ -35,7 +35,7 @@ export function QuestionCard({ question }: QuestionCardProps) {
                     </Avatar>
                     <span>{question.author.name} asked in</span>
                     <span className="font-semibold text-foreground">{question.subject.name}</span>
-                    <span>• {formatDistanceToNow(question.createdAt, { addSuffix: true })}</span>
+                    <span>• {formatDistanceToNow(question.createdAt.toDate(), { addSuffix: true })}</span>
                 </CardDescription>
             </div>
              <Badge variant="secondary">{question.subject.name}</Badge>
@@ -57,7 +57,8 @@ export function QuestionCard({ question }: QuestionCardProps) {
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
                 <MessageSquare className="h-4 w-4" />
-                <span>{question.answers.length} Answers</span>
+                <span>{question.answerCount} Answers</span>
+
             </div>
         </div>
       </CardFooter>

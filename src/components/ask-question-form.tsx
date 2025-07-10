@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useState, useTransition, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+
 import {
   Form,
   FormControl,
@@ -28,7 +29,8 @@ import { Badge } from '@/components/ui/badge';
 import { Loader2, Sparkles, Paperclip, Tag as TagIcon } from 'lucide-react';
 import { subjects } from '@/lib/data';
 import { getTagSuggestions } from '@/lib/actions';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast'; // Corrected import path for useToast
+import { addQuestion } from '@/lib/firestore'; // Import the addQuestion function
 
 const askQuestionSchema = z.object({
   subject: z.string().min(1, 'Please select a subject.'),
@@ -43,6 +45,7 @@ export function AskQuestionForm() {
   const [isPending, startTransition] = useTransition();
   const [suggestedTags, setSuggestedTags] = useState<string[]>([]);
   const { toast } = useToast();
+  const [isMounted, setIsMounted] = useState(false);
 
   const form = useForm<AskQuestionFormValues>({
     resolver: zodResolver(askQuestionSchema),
@@ -53,6 +56,10 @@ export function AskQuestionForm() {
       tags: [],
     },
   });
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleGenerateTags = () => {
     const questionContent = form.getValues('content');
@@ -83,13 +90,56 @@ export function AskQuestionForm() {
     form.setValue('tags', currentTags.filter(tag => tag !== tagToRemove));
   };
   
-  function onSubmit(values: AskQuestionFormValues) {
-    console.log(values);
-    toast({
-      title: "Question Posted!",
-      description: "Your question has been successfully posted.",
-    });
+  // function onSubmit(values: AskQuestionFormValues) {
+    // console.log(values);
+    // toast({
+    //   title: "Question Posted!",
+    //   description: "Your question has been successfully posted.",
+  //   });
+  // }
+
+  async function onSubmit(values: AskQuestionFormValues) {
+    console.log('Form submitted. Preparing to add question...');
+    console.log('Form values:', values);
+
+    // You'll need to get the authorId from Firebase Auth later
+    // For now, use a placeholder or get it from your authentication state
+    const authorId = 'placeholder-author-id'; // Replace with actual author ID when ready
+
+    const questionData = {
+      title: values.title,
+      content: values.content,
+      authorId: authorId,
+      subjectId: values.subject,
+      tags: values.tags,
+    };
+
+    console.log('Calling addQuestion with:', questionData);
+
+    try {
+      const docId = await addQuestion(questionData);
+      console.log('addQuestion completed. Document ID:', docId);
+
+      // If addQuestion was successful:
+      toast({
+        title: "Question Posted!",
+        description: `Your question has been successfully posted with ID: ${docId}`,
+      });
+
+      // Consider resetting the form here
+      // form.reset(); // If you are using react-hook-form's reset method
+
+    } catch (err: any) {
+      console.error('Error during question submission in onSubmit:', err);
+      // setError(err.message || 'An error occurred while posting your question.'); // If you have an error state
+      toast({
+        variant: "destructive",
+        title: "Failed to post question.",
+        description: err.message || "An error occurred.",
+      });
+    }
   }
+
 
   return (
     <Form {...form}>

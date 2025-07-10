@@ -1,7 +1,6 @@
-import { questions } from '@/lib/data';
 import { QuestionCard } from './question-card';
 
-export function QuestionList() {
+export function QuestionList({ questions }: { questions: any[] }) {
   return (
     <div className="space-y-4">
       {questions.map((question) => (
