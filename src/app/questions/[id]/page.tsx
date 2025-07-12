@@ -15,7 +15,7 @@ import { MessageSquare, Paperclip } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AnswerCard } from '@/components/answer-card';
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore'; // Import Firestore real-time functions
-import { db } from '@/lib/firebase'; // Import the Firestore instance (assuming you export it from firebase.ts)
+import { db } from '@/lib/firestore'; // Import the Firestore instance (assuming you export it from firebase.ts)
 
 
 export default function QuestionDetailsPage() {

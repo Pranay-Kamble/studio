@@ -1,7 +1,7 @@
 import { getFirestore, collection, getDocs, addDoc, serverTimestamp, doc, getDoc , query, orderBy } from 'firebase/firestore'; // Ensure doc and getDoc are imported
 import app from './firebase'; // Import the initialized Firebase app
 
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export const getQuestions = async () => {
   try {
@@ -222,4 +222,3 @@ export const addAnswer = async (questionId: string, answerData: {
     throw error;
   }
 };
-

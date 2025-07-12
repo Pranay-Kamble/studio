@@ -1,38 +1,51 @@
-import * as functions from 'firebase-functions';
-import * as admin from 'firebase-admin';
+import {onDocumentCreated} from "firebase-functions/v2/firestore";
+import * as admin from "firebase-admin";
 
-// Initialize Firebase Admin SDK (already done if you used init functions)
-// admin.initializeApp();
+admin.initializeApp();
 
 const db = admin.firestore();
 
-// Cloud Function to increment answerCount on question when an answer is created
-export const incrementAnswerCount = functions.firestore
-  .document('questions/{questionId}/answers/{answerId}')
-  .onCreate(async (snapshot, context) => {
-    const questionId = context.params.questionId;
-    const questionRef = db.collection('questions').doc(questionId);
+
+export const incrementAnswerCount =
+onDocumentCreated(
+  "questions/{questionId}/answers/{answerId}",
+  async (event) => {
+    // const snapshot = event.data;
+    // event.params.answerId is available but not used in this function
+    const questionId = event.params.questionId;
+    const questionRef = db.collection("questions").doc(questionId);
 
     try {
       await db.runTransaction(async (transaction) => {
         const questionDoc = await transaction.get(questionRef);
 
         if (!questionDoc.exists) {
-          console.warn(`Question with ID ${questionId} does not exist.`);
-          return; // Exit if the question document doesn't exist
+          console.warn(
+            `Question with ID ${questionId} does not exist.`
+          );
+          return;
         }
 
         const currentAnswerCount = questionDoc.data()?.answerCount || 0;
         const newAnswerCount = currentAnswerCount + 1;
 
-        transaction.update(questionRef, { answerCount: newAnswerCount });
+        transaction.update(questionRef, {
+          answerCount: newAnswerCount, // Added trailing comma
+        });
 
-        console.log(`Incremented answerCount for question ${questionId} to ${newAnswerCount}`);
+        console.log(
+          `Incremented answerCount for question ${questionId}`+
+          `to ${newAnswerCount}`
+        );
       });
 
-      return null; // Indicate success
+      return null;
     } catch (error) {
-      console.error(`Error incrementing answerCount for question ${questionId}:`, error);
-      return null; // Indicate failure (or handle error as needed)
+      console.error(
+        `Error incrementing answerCount for question ${questionId}:`,
+        error, // Added trailing comma
+      );
+      return null;
     }
-  });
+  }
+);
